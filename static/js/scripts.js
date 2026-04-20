@@ -38,7 +38,7 @@ const cvs = document.getElementById('c');
 const ctx = cvs.getContext('2d');
 const infoEl = document.getElementById('info');
 
-const SIZE = Math.min(460, window.innerWidth - 40, window.innerHeight - 100);
+const SIZE = Math.min(580, window.innerWidth - 40, window.innerHeight - 100);
 cvs.width = SIZE; cvs.height = SIZE;
 const CX = SIZE/2, CY = SIZE/2, SC = SIZE/460;
 
@@ -46,7 +46,7 @@ const ro=212*SC, rsi=178*SC, rmo=178*SC, rmi=123*SC;
 const rno=123*SC, rni=78*SC,  rc=78*SC;
 const N=12, SEG=(2*Math.PI)/N;
 
-let rot=0, dragging=false, lastAng=0, vel=0, lastT=0;
+let rot=0, dragging=false, lastAng=0, vel=0, lastT=0, didDrag = false;
 let raf=null, topKey=0, lastTopKey=-1;
 
 function sector(r1,r2,a1,a2){
@@ -80,7 +80,7 @@ function draw(){
     sector(rsi,ro,a1,a2);
     ctx.fillStyle=act?`hsla(${h},40%,12%,1)`:`hsla(${h},22%,7%,1)`;
     ctx.fill(); ctx.strokeStyle=sp; ctx.lineWidth=0.65; ctx.stroke();
-    txt(k.sig,(rsi+ro)/2,mid,`${10*SC}px 'Cormorant Garamond',serif`,
+    txt(k.sig,(rsi+ro)/2,mid,`${12*SC}px 'Cormorant Garamond',serif`,
       act?`hsla(${h},65%,75%,0.9)`:`hsla(${h},28%,50%,0.46)`);
 
     sector(rmi,rmo,a1,a2);
@@ -102,7 +102,7 @@ function draw(){
       ctx.fillStyle=act?`hsla(${h},60%,80%,0.8)`:`hsla(${h},38%,68%,0.7)`;
       ctx.fillText(p1,0,7*SC); ctx.restore();
     } else {
-      txt(k.major,majR,mid,`600 ${19*SC}px 'Cinzel',serif`,majC);
+      txt(k.major,majR,mid,`600 ${20*SC}px 'Cinzel',serif`,majC);
     }
 
     sector(rni,rno,a1,a2);
@@ -110,7 +110,7 @@ function draw(){
     act?(ng.addColorStop(0,`hsla(${h},32%,13%,1)`),ng.addColorStop(1,`hsla(${h},42%,17%,1)`))
        :(ng.addColorStop(0,`hsla(${h},14%,7%,1)`), ng.addColorStop(1,`hsla(${h},22%,10%,1)`));
     ctx.fillStyle=ng; ctx.fill(); ctx.strokeStyle=sp; ctx.lineWidth=0.65; ctx.stroke();
-    txt(k.minor,(rni+rno)/2,mid,`${11*SC}px 'Cormorant Garamond',serif`,
+    txt(k.minor,(rni+rno)/2,mid,`${13*SC}px 'Cormorant Garamond',serif`,
       act?`hsla(${h},60%,84%,0.95)`:`hsla(${h},30%,60%,0.63)`);
   }
 
@@ -121,11 +121,11 @@ function draw(){
   ctx.strokeStyle='rgba(175,158,240,0.13)'; ctx.lineWidth=1; ctx.stroke();
   ctx.beginPath(); ctx.arc(CX,CY,rc-10*SC,0,2*Math.PI);
   ctx.strokeStyle='rgba(175,158,240,0.05)'; ctx.lineWidth=0.5; ctx.stroke();
-  ctx.font=`italic ${8*SC}px 'Cormorant Garamond',serif`;
+  ctx.font=`italic ${10*SC}px 'Cormorant Garamond',serif`;
   ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillStyle='rgba(190,178,248,0.22)';
-  ctx.fillText('↑  quintas',CX,CY-9*SC);
-  ctx.fillText('quartas  ↓',CX,CY+9*SC);
+  ctx.fillStyle='rgba(190,178,248,0.4)';
+  ctx.fillText('quintas↷',CX,CY-9*SC);
+  ctx.fillText('↶ quartas',CX,CY+9*SC);
 
   ctx.beginPath(); ctx.arc(CX,CY,ro+3*SC,0,2*Math.PI);
   ctx.strokeStyle='rgba(175,158,240,0.06)'; ctx.lineWidth=1; ctx.stroke();
@@ -143,7 +143,7 @@ function updatePanel(idx, anim){
   function render(){
     document.getElementById('pk-name').textContent=k.major;
     document.getElementById('pk-name').style.color=`hsla(${h},78%,88%,1)`;
-    document.getElementById('pk-minor').textContent=`relativa menor: ${k.minor}`;
+    document.getElementById('pk-minor').textContent=`Relativa menor: ${k.minor}`;
     document.getElementById('pk-sig').textContent=`Armadura: ${k.sig}`;
 
     document.getElementById('scale-strip').innerHTML=sc.map((n,i)=>
@@ -219,12 +219,14 @@ const getA=(x,y)=>Math.atan2(y-CY,x-CX);
 function onDown(x,y){
   if(raf){ cancelAnimationFrame(raf); raf=null; }
   dragging=true; lastAng=getA(x,y); lastT=performance.now(); vel=0;
+  didDrag=false;
   cvs.classList.add('dragging');
 }
 function onMove(x,y){
   if(!dragging) return;
   const a=getA(x,y); let d=a-lastAng;
   if(d>Math.PI) d-=2*Math.PI; if(d<-Math.PI) d+=2*Math.PI;
+  if(Math.abs(d) > 0.004) didDrag=true;
   const now=performance.now(), dt=Math.max(now-lastT,1);
   vel=d/dt*16; rot+=d; lastAng=a; lastT=now;
   updateTop(); draw();
@@ -260,6 +262,46 @@ document.addEventListener('keydown',e=>{
   if(!dir) return;
   if(raf) cancelAnimationFrame(raf);
   rot+=dir*SEG; updateTop(); draw(); snapNearest();
+});
+
+function segmentAtPoint(x, y){
+  const dx = x - CX, dy = y - CY;
+  const dist = Math.sqrt(dx*dx + dy*dy);
+  if(dist < rni || dist > ro) return -1;
+  let angle = Math.atan2(dy, dx) + Math.PI/2 - rot;
+  angle = ((angle % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI);
+  return Math.floor(angle / SEG) % N;
+}
+
+cvs.addEventListener('click', e => {
+  if(didDrag) return;
+  const r = cvs.getBoundingClientRect();
+  const seg = segmentAtPoint(e.clientX - r.left, e.clientY - r.top);
+  if(seg === -1) return;
+
+  if(raf) cancelAnimationFrame(raf);
+
+  const targetRot = -seg * SEG;
+  let diff = targetRot - rot;
+  // escolhe o caminho mais curto
+  const full = 2 * Math.PI;
+  diff = ((diff % full) + full) % full;
+  if(diff > Math.PI) diff -= full;
+
+  const destination = rot + diff;
+
+  function step(){
+    const d = destination - rot;
+    if(Math.abs(d) < 0.001){
+      rot = destination;
+      updateTop(); draw(); updatePanel(topKey, false);
+      return;
+    }
+    rot += d * 0.12;
+    updateTop(); draw();
+    raf = requestAnimationFrame(step);
+  }
+  raf = requestAnimationFrame(step);
 });
 
 /* ── Init ──────────────────────────────── */

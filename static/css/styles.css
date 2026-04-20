@@ -18,35 +18,39 @@ html, body {
   align-items: center;
 }
 .title {
+  /* Título principal */
   font-family: 'Cinzel', serif;
-  font-size: 8.5px;
+  font-size: 14px;
   letter-spacing: 7px;
-  color: rgba(185,170,240,0.26);
+  color: rgba(185,170,240,0.5);
   text-transform: uppercase;
   margin-bottom: 14px;
 }
 canvas { display: block; cursor: grab; }
 canvas.dragging { cursor: grabbing; }
 .key-info {
+  /* Texto abaixo da roda: Infos gerais (C maior, etc.) */
   font-family: 'Cormorant Garamond', serif;
-  font-size: 13px;
+  font-size: 16px;
   color: rgba(200,188,250,0.4);
   margin-top: 7px;
   letter-spacing: 0.8px;
   min-height: 18px;
+  line-height: 1;
 }
 .hint {
+  /* Texto abaixo da roda: Dicas de funcionamento (arraste ou clique para girar, etc.) */
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-size: 10.5px;
+  font-size: 13px;
   letter-spacing: 1.5px;
-  color: rgba(185,170,240,0.15);
+  color: rgba(185,170,240,0.3);
   margin-top: 8px;
 }
 
 /* ── Panel ─────────────────────────────── */
 .panel {
-  width: 272px;
+  width: 320px;
   flex-shrink: 0;
   background: #0a0b15;
   border: 0.5px solid rgba(175,158,240,0.11);
@@ -64,30 +68,37 @@ canvas.dragging { cursor: grabbing; }
   margin-bottom: 5px;
 }
 #pk-name {
+  /* Nota do tom */
   font-family: 'Cinzel', serif;
-  font-size: 30px;
+  font-size: 32px;
   font-weight: 600;
   letter-spacing: 1px;
   transition: color 0.4s;
+  line-height: 1;
 }
 .pk-badge {
+  /* Qualidade do tom (maior/menor) */
   font-family: 'Cinzel', serif;
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 3.5px;
   color: rgba(185,170,240,0.38);
   text-transform: uppercase;
 }
 #pk-minor {
+  /* Relativa menor */
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-size: 13px;
+  font-size: 15px;
   color: rgba(185,170,240,0.36);
+  line-height: 1;
 }
 #pk-sig {
+  /* Armadura */
   font-family: 'Cormorant Garamond', serif;
-  font-size: 11.5px;
-  color: rgba(185,170,240,0.24);
+  font-size: 14px;
+  color: rgba(185,170,240,0.3);
   margin-top: 3px;
+  line-height: 1;
 }
 .sec {
   padding: 13px 20px;
@@ -95,10 +106,11 @@ canvas.dragging { cursor: grabbing; }
 }
 .sec:last-child { border-bottom: none; }
 .sec-lbl {
+  /* Títulos das subseções da tabela */
   font-family: 'Cinzel', serif;
-  font-size: 7px;
+  font-size: 9px;
   letter-spacing: 5px;
-  color: rgba(175,158,240,0.28);
+  color: rgba(175,158,240,0.42);
   text-transform: uppercase;
   margin-bottom: 11px;
 }
@@ -117,16 +129,19 @@ canvas.dragging { cursor: grabbing; }
 }
 .nc.hi { background: rgba(175,158,240,0.11); }
 .nc .deg {
+  /* Graus da escala */
   font-family: 'Cinzel', serif;
-  font-size: 6.5px;
+  font-size: 8.5px;
   color: rgba(185,170,240,0.3);
 }
 .nc.hi .deg { color: rgba(195,182,255,0.6); }
 .nc .nt {
+  /* Notas da escala */
   font-family: 'Cinzel', serif;
-  font-size: 12.5px;
+  font-size: 14.5px;
   font-weight: 600;
   color: rgba(215,205,255,0.72);
+  line-height: 1;
 }
 .nc.hi .nt { color: rgba(230,222,255,0.95); }
 
@@ -136,36 +151,41 @@ canvas.dragging { cursor: grabbing; }
 .ct tr.hi { background: rgba(175,158,240,0.07); }
 .ct td { padding: 4px 3px; vertical-align: middle; }
 .t-r {
+  /* Graus da tabela */
   font-family: 'Cinzel', serif;
-  font-size: 9.5px;
+  font-size: 11.5px;
   font-weight: 600;
   color: rgba(185,170,240,0.36);
   width: 24px;
 }
 .ct tr.hi .t-r { color: rgba(205,192,255,0.72); }
 .t-c {
-  font-family: 'Cinzel', serif;
-  font-size: 13.5px;
+  /* Acordes da tabela */
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
   font-weight: 600;
-  color: rgba(220,212,255,0.85);
+  color: rgba(220,212,255,0.8);
   width: 52px;
+  line-height: 1;
 }
 .t-q {
+  /* Qualidade dos acordes na tabela (maior/menor/dim) */
   font-family: 'Cormorant Garamond', serif;
-  font-size: 11px;
+  font-size: 13px;
   font-style: italic;
-  color: rgba(175,158,240,0.32);
+  color: rgba(175,158,240,0.36);
   width: 38px;
 }
 .t-m {
+  /* Modos da tabela */
   font-family: 'Cormorant Garamond', serif;
-  font-size: 11px;
+  font-size: 13px;
   font-style: italic;
-  color: rgba(175,158,240,0.28);
+  color: rgba(175,158,240,0.36);
   text-align: right;
 }
 
-/* I-IV-V */
+/* Progressão I-IV-V */
 .prog-row { display: flex; gap: 6px; }
 .pc {
   flex: 1;
@@ -179,21 +199,25 @@ canvas.dragging { cursor: grabbing; }
   gap: 3px;
 }
 .pc-r {
+  /* Graus nos cards da progressão */
   font-family: 'Cinzel', serif;
-  font-size: 7.5px;
+  font-size: 9.5px;
   letter-spacing: 1px;
-  color: rgba(185,170,240,0.38);
+  color: rgba(185,170,240,0.46);
 }
 .pc-c {
+  /* Notas nos cards da progressão */
   font-family: 'Cinzel', serif;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
   color: rgba(230,222,255,0.92);
+  line-height: 1;
 }
 .pc-f {
+  /* Função harmônica nos cards da progressão */
   font-family: 'Cormorant Garamond', serif;
-  font-size: 9.5px;
+  font-size: 12px;
   font-style: italic;
-  color: rgba(185,170,240,0.32);
+  color: rgba(185,170,240,0.4);
   text-align: center;
 }

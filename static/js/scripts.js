@@ -114,16 +114,17 @@ function draw(){
       act?`hsla(${h},60%,84%,0.95)`:`hsla(${h},30%,60%,0.63)`);
   }
 
+  // ── Centro do círculo ──────────────────
   const cg=ctx.createRadialGradient(CX,CY,0,CX,CY,rc);
   cg.addColorStop(0,'#0f1020'); cg.addColorStop(1,'#08090f');
   ctx.beginPath(); ctx.arc(CX,CY,rc,0,2*Math.PI);
   ctx.fillStyle=cg; ctx.fill();
   ctx.strokeStyle='rgba(175,158,240,0.13)'; ctx.lineWidth=1; ctx.stroke();
-  ctx.beginPath(); ctx.arc(CX,CY,rc-10*SC,0,2*Math.PI);
-  ctx.strokeStyle='rgba(175,158,240,0.05)'; ctx.lineWidth=0.5; ctx.stroke();
+//   ctx.beginPath(); ctx.arc(CX,CY,rc-15*SC,0,2*Math.PI);
+//   ctx.strokeStyle='rgba(175,158,240,0.05)'; ctx.lineWidth=0.5; ctx.stroke();
   ctx.font=`italic ${10*SC}px 'Cormorant Garamond',serif`;
   ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillStyle='rgba(190,178,248,0.4)';
+  ctx.fillStyle='rgba(190,178,248,0.3)';
   ctx.fillText('quintas↷',CX,CY-9*SC);
   ctx.fillText('↶ quartas',CX,CY+9*SC);
 
@@ -133,6 +134,46 @@ function draw(){
   ctx.beginPath();
   ctx.moveTo(CX,ty+11*SC); ctx.lineTo(CX-4*SC,ty+3*SC); ctx.lineTo(CX+4*SC,ty+3*SC);
   ctx.closePath(); ctx.fillStyle='rgba(205,190,255,0.5)'; ctx.fill();
+
+  // ── Anel de graus fixo ──────────────────
+  const rdgo = rni;
+  const ringThickness = 15;
+  const rdgi = rc - ringThickness*SC;
+  const degLabels = ['I','V','ii','vi','iii','vii°','','','','','','IV'];
+  const degColors = [
+    'hsla(220,40%,68%,0.90)',   // I   - tônica
+    'hsla(220,40%,68%,0.88)',    // V   - dominante
+    'hsla(220,40%,68%,0.7)',   // ii
+    'hsla(220,40%,68%,0.7)',   // vi
+    'hsla(220,40%,68%,0.7)',   // iii
+    'hsla(220,40%,68%,0.55)',  // vii°
+    '','','','','',
+    'hsla(220,40%,68%,0.88)',  // IV  - subdominante
+  ];
+  
+  for(let i=0;i<N;i++){
+    const a1 = i*SEG - SEG/2 - Math.PI/2;
+    const a2 = a1 + SEG;
+    const mid = a1 + SEG/2;
+  
+    sector(rdgi, rdgo, a1, a2);
+    ctx.fillStyle = `hsla(230, 25%, 10%, ${i<6|i>10?'1':'0'})`;
+    ctx.fill();
+    ctx.strokeStyle = `hsla(252, 73%, 78%, ${i<6|i>10?'0.12':'0'})`; // rgba(175,158,240,0.12)
+    ctx.lineWidth = 0.65;
+    ctx.stroke();
+  
+    if(degLabels[i]){
+      ctx.save();
+      ctx.translate(CX + ((rdgi+rdgo)/2)*Math.cos(mid), CY + ((rdgi+rdgo)/2)*Math.sin(mid));
+      ctx.font = `${i===0?600:400} ${10*SC}px 'Cormorant Garamond',serif`;
+      ctx.fillStyle = degColors[i];
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(degLabels[i], 0, `${i<2|i>10?1*SC:0}`);
+      ctx.restore();
+    }
+  }
 }
 
 /* ── Panel update ──────────────────────── */
@@ -268,7 +309,7 @@ function segmentAtPoint(x, y){
   const dx = x - CX, dy = y - CY;
   const dist = Math.sqrt(dx*dx + dy*dy);
   if(dist < rni || dist > ro) return -1;
-  let angle = Math.atan2(dy, dx) + Math.PI/2 - rot;
+  let angle = Math.atan2(dy, dx) + Math.PI/2 - rot + SEG/2;
   angle = ((angle % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI);
   return Math.floor(angle / SEG) % N;
 }
@@ -305,4 +346,8 @@ cvs.addEventListener('click', e => {
 });
 
 /* ── Init ──────────────────────────────── */
-updateTop(); draw(); updatePanel(topKey,false);
+updateTop();
+document.fonts.ready.then(() => {
+  draw();
+  updatePanel(topKey, false);
+});

@@ -1,0 +1,199 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  min-height: 100%;
+  background: #07080f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 26px;
+  padding: 20px;
+  overflow-x: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.title {
+  font-family: 'Cinzel', serif;
+  font-size: 8.5px;
+  letter-spacing: 7px;
+  color: rgba(185,170,240,0.26);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+canvas { display: block; cursor: grab; }
+canvas.dragging { cursor: grabbing; }
+.key-info {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  color: rgba(200,188,250,0.4);
+  margin-top: 7px;
+  letter-spacing: 0.8px;
+  min-height: 18px;
+}
+.hint {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 10.5px;
+  letter-spacing: 1.5px;
+  color: rgba(185,170,240,0.15);
+  margin-top: 8px;
+}
+
+/* ── Panel ─────────────────────────────── */
+.panel {
+  width: 272px;
+  flex-shrink: 0;
+  background: #0a0b15;
+  border: 0.5px solid rgba(175,158,240,0.11);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.ph {
+  padding: 18px 20px 14px;
+  border-bottom: 0.5px solid rgba(175,158,240,0.09);
+}
+.ph-row1 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+#pk-name {
+  font-family: 'Cinzel', serif;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: color 0.4s;
+}
+.pk-badge {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 3.5px;
+  color: rgba(185,170,240,0.38);
+  text-transform: uppercase;
+}
+#pk-minor {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: rgba(185,170,240,0.36);
+}
+#pk-sig {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11.5px;
+  color: rgba(185,170,240,0.24);
+  margin-top: 3px;
+}
+.sec {
+  padding: 13px 20px;
+  border-bottom: 0.5px solid rgba(175,158,240,0.07);
+}
+.sec:last-child { border-bottom: none; }
+.sec-lbl {
+  font-family: 'Cinzel', serif;
+  font-size: 7px;
+  letter-spacing: 5px;
+  color: rgba(175,158,240,0.28);
+  text-transform: uppercase;
+  margin-bottom: 11px;
+}
+
+/* Scale strip */
+.scale-strip { display: flex; gap: 3px; }
+.nc {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 2px;
+  border-radius: 6px;
+  background: rgba(175,158,240,0.04);
+}
+.nc.hi { background: rgba(175,158,240,0.11); }
+.nc .deg {
+  font-family: 'Cinzel', serif;
+  font-size: 6.5px;
+  color: rgba(185,170,240,0.3);
+}
+.nc.hi .deg { color: rgba(195,182,255,0.6); }
+.nc .nt {
+  font-family: 'Cinzel', serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: rgba(215,205,255,0.72);
+}
+.nc.hi .nt { color: rgba(230,222,255,0.95); }
+
+/* Chord table */
+.ct { width: 100%; border-collapse: collapse; }
+.ct tr { border-bottom: 0.5px solid rgba(175,158,240,0.055); }
+.ct tr.hi { background: rgba(175,158,240,0.07); }
+.ct td { padding: 4px 3px; vertical-align: middle; }
+.t-r {
+  font-family: 'Cinzel', serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  color: rgba(185,170,240,0.36);
+  width: 24px;
+}
+.ct tr.hi .t-r { color: rgba(205,192,255,0.72); }
+.t-c {
+  font-family: 'Cinzel', serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: rgba(220,212,255,0.85);
+  width: 52px;
+}
+.t-q {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  font-style: italic;
+  color: rgba(175,158,240,0.32);
+  width: 38px;
+}
+.t-m {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  font-style: italic;
+  color: rgba(175,158,240,0.28);
+  text-align: right;
+}
+
+/* I-IV-V */
+.prog-row { display: flex; gap: 6px; }
+.pc {
+  flex: 1;
+  background: rgba(175,158,240,0.07);
+  border: 0.5px solid rgba(175,158,240,0.14);
+  border-radius: 8px;
+  padding: 9px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.pc-r {
+  font-family: 'Cinzel', serif;
+  font-size: 7.5px;
+  letter-spacing: 1px;
+  color: rgba(185,170,240,0.38);
+}
+.pc-c {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(230,222,255,0.92);
+}
+.pc-f {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9.5px;
+  font-style: italic;
+  color: rgba(185,170,240,0.32);
+  text-align: center;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ciclo das Quintas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+
+<div class="left">
+  <p class="title">Ciclo das Quintas · Circle of Fifths</p>
+  <canvas id="c"></canvas>
+  <p class="key-info" id="info"></p>
+  <p class="hint">arraste para girar &nbsp;·&nbsp; teclas ← → também funcionam</p>
+</div>
+
+<div class="panel" id="panel">
+  <div class="ph">
+    <div class="ph-row1">
+      <span id="pk-name">C</span>
+      <span class="pk-badge">Maior</span>
+    </div>
+    <div id="pk-minor">relativa menor: Am</div>
+    <div id="pk-sig">Armadura: ∅</div>
+  </div>
+  <div class="sec">
+    <div class="sec-lbl">Escala</div>
+    <div class="scale-strip" id="scale-strip"></div>
+  </div>
+  <div class="sec">
+    <div class="sec-lbl">Graus · Acordes · Modos</div>
+    <table class="ct" id="chord-table"></table>
+  </div>
+  <div class="sec">
+    <div class="sec-lbl">Progressão I · IV · V</div>
+    <div class="prog-row" id="prog-row"></div>
+  </div>
+</div>
+
+<script src="static/js/scripts.js"></script>
+</body>
+</html>

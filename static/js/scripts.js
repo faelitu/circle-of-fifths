@@ -57,8 +57,7 @@ function sector(r1,r2,a1,a2){
 }
 
 function tdir(mid){
-  const n=((mid%(2*Math.PI))+2*Math.PI)%(2*Math.PI);
-  return (n>Math.PI/2&&n<3*Math.PI/2)?mid-Math.PI/2:mid+Math.PI/2;
+  return mid + Math.PI/2;
 }
 
 function txt(t,r,mid,font,color){

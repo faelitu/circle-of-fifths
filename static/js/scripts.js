@@ -298,8 +298,8 @@ cvs.addEventListener('touchmove',e=>{
 cvs.addEventListener('touchend',onUp);
 
 document.addEventListener('keydown',e=>{
-  const dir=e.key==='ArrowRight'||e.key==='ArrowDown'?-1
-           :e.key==='ArrowLeft' ||e.key==='ArrowUp'  ? 1:0;
+  const dir=e.key==='ArrowRight'?-1
+           :e.key==='ArrowLeft' ? 1:0;
   if(!dir) return;
   if(raf) cancelAnimationFrame(raf);
   rot+=dir*SEG; updateTop(); draw(); snapNearest();
